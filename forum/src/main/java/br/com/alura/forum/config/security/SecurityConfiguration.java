@@ -22,10 +22,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private AutenticacaoService autenticacaoService;
-	
+
 	@Autowired
 	private TokenService tokenService;
-	
+
 	@Autowired
 	private UsuarioRepository usuarioRepository;
 
@@ -53,13 +53,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()//
 				.and().csrf().disable()//
 				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()//
-				.addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository), UsernamePasswordAuthenticationFilter.class)//
+				.addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository),
+						UsernamePasswordAuthenticationFilter.class)//
 		;
 	}
 
 	// config de recursos estaticos
 	@Override
 	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/**.html", "/v2/api-docs", "/webjars/**", "/configuration/**",
+				"/swagger-resources/**");
 	}
 
 }
