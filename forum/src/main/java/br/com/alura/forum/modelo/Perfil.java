@@ -35,7 +35,7 @@ public class Perfil  implements GrantedAuthority{
 
 	@Override
 	public String getAuthority() {
-		return "nome";
+		return nome;
 	}
 	
 	
